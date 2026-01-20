@@ -1,0 +1,289 @@
+.landing {
+  font-family: Arial, sans-serif;
+  color: #222;
+}
+
+/* HERO */
+.hero {
+  text-align: center;
+  padding: 80px 64px;
+  background: linear-gradient(to bottom, #9b8fdc, #e9c8d8);
+}
+
+.hero h1 {
+  font-size: 48px;
+  font-weight: 600;
+  line-height: 1.2;
+  margin-bottom: 30px;
+}
+
+.hero-image{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+}
+
+.hero-image img{
+  width: 220px;
+  object-fit: contain;
+}
+
+.hero p {
+  max-width: 600px;
+  margin: 1rem auto;
+}
+
+.primary-btn {
+  background: #6c63ff;
+  color: white;
+  padding: 0.8rem 1.5rem;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+/* PROBLEM & SOLUTION */
+.problem-solution {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 24px;
+  text-align: center;
+}
+
+.card {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 24px;
+}
+
+.card h2{
+  text-align: center;
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.card-content{
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  justify-content: center;
+}
+
+.card-content ul {
+  max-width: 60%;
+  list-style-position: inside;
+  padding-left: 0;
+  margin: 0;
+}
+
+.card-content li{
+  margin-bottom: 10px;
+
+  line-height: 1.4;
+}
+
+.card img{
+  width: 120px;
+  max-width: 100px;
+  object-fit: contain;
+}
+
+.danger {
+  color: #d9534f;
+}
+
+.success {
+  color: #28a745;
+}
+
+/* FEATURES */
+.features {
+  background: #f9f9f9;
+  padding: 96px 64px;
+  text-align: center;
+  gap: 64px;
+}
+
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.feature {
+  padding: 1.5rem;
+  border-radius: 15px;
+  color: #333;
+}
+
+.daily { background: #dbeafe; }
+.time { background: #fde2e4; }
+.streak { background: #dcfce7; }
+.motivate { background: #fef3c7; }
+
+/* CTA */
+.cta {
+  padding: 96px 64px;
+  text-align: center;
+}
+
+/* FOOTER */
+.footer {
+  background: #ffffff;
+  border-top: 1px solid #e5e7eb;
+  padding: 2rem 1rem;
+  text-align: center;
+}
+
+.footer-links {
+  display: grid;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.footer-links a {
+  display: flex;
+  text-decoration: none;
+  color: #222;
+  font-size: 0.9rem;
+}
+
+.footer-links a:hover {
+  color: #6c63ff;
+}
+
+.footer-text {
+  font-size: 0.85rem;
+  color: #888;
+}
+
+.cta-button {
+  display: inline-block;
+  background: #dcdc;
+  color: #ffffff;
+  align-items: center;
+  font-weight: 600;
+  padding: 14px 32px;
+  border-radius: 20px;
+  text-decoration: none;
+  transition: background 0.3s ease;
+}
+
+.cta-button :hover{
+  background: darkslategray;
+  transform: translateY(-2px);
+}
+.cta-btn {
+  padding: 14px 28px;
+  background: #dcdcdc;
+  color: #222;
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.cta-btn :hover {
+  background: #dcdc;
+  transform: translateY(-2px);
+}
+
+
+/* TABLET */
+@media (max-width: 1023px) {
+  .hero {
+    padding-top: 96px;
+    padding-bottom: 72px;
+  }
+
+  .hero h1 {
+    font-size: 40px;
+  }
+}
+
+@media (max-width: 768px) {
+  .card{
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .card-content ul{
+    width: 100%;
+  }
+  .hero-image{
+    flex-direction: column;
+  }
+
+  .hero-image img{
+    width: 180px;
+  }
+}
+
+/* MOBILE */
+@media (max-width: 767px) {
+  .hero {
+    padding-top: 88px;
+    padding-left: 16px;
+    padding-right: 16px;
+    text-align: center;
+  }
+
+  .hero h1 {
+    font-size: 32px;
+  }
+
+  .hero p {
+    font-size: 14px;
+  }
+
+  .hero-img {
+    max-width: 100%;
+  }
+}
+
+
+/* ===============================
+   RESPONSIVE SECTIONS
+================================ */
+
+/* TABLET */
+@media (max-width: 1023px) {
+  .problem-solution {
+    flex-direction: column;
+    padding: 72px 24px;
+  }
+
+  .features {
+    padding: 72px 24px;
+  }
+}
+
+/* MOBILE */
+@media (max-width: 767px) {
+  .feature-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .cta h2 {
+    font-size: 24px;
+  }
+}
+
+/* ===============================
+   FOOTER RESPONSIVE
+================================ */
+
+@media (max-width: 767px) {
+  .footer-links {
+    gap: 12px;
+    font-size: 13px;
+  }
+
+  .footer-text {
+    font-size: 12px;
+  }
+}
