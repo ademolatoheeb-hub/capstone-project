@@ -66,9 +66,7 @@ const DashboardLayout = ({ children }) => {
         </nav>
       </aside>
 
-      <main className="main-content">
-        {children}
-      </main>
+      <main className="main-content">{children}</main>
     </div>
   );
 };

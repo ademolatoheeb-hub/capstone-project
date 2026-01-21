@@ -138,3 +138,28 @@
     display: none;
   }
 }
+
+/* parent-controlled layout offsets */
+.layout .dashboard-main,
+.layout .dashboard {
+  margin-left: 260px;
+  transition: margin-left 0.3s ease;
+}
+
+.layout.sidebar-collapsed .dashboard-main,
+.layout.sidebar-collapsed .dashboard {
+  margin-left: 80px;
+}
+
+/* mobile: hide sidebar and reset margins */
+@media (max-width: 768px) {
+  .layout .sidebar {
+    display: none;
+  }
+  .layout .dashboard-main,
+  .layout .dashboard {
+    margin-left: 0 !important;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+}

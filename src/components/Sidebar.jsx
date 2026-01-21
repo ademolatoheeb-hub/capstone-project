@@ -2,7 +2,6 @@
 import { NavLink } from "react-router-dom";
 import { useState, useEffect } from "react";
 import "./sidebar.css";
-
 import logo from "../assets/images/logo.png";
 
 export default function Sidebar() {
@@ -16,8 +15,10 @@ export default function Sidebar() {
     return () => window.removeEventListener("resize", onResize);
   }, []);
 
-  // If mobile, always hide sidebar (topbar hamburger will control mobile menu)
+  // Hide sidebar on mobile; Topbar hamburger will control mobile menu
   if (isMobile) return null;
+
+  const linkClass = ({ isActive }) => `nav-link${isActive ? " active" : ""}`;
 
   return (
     <aside
@@ -41,21 +42,21 @@ export default function Sidebar() {
       </div>
 
       <nav className="nav" role="navigation" aria-label="Dashboard links">
-        <NavLink to="/dashboard" className="nav-link" activeClassName="active">
+        <NavLink to="/dashboard" className={linkClass}>
           <span className="icon" aria-hidden="true">
             📊
           </span>
           {!collapsed && <span className="label">Dashboard</span>}
         </NavLink>
 
-        <NavLink to="/goals" className="nav-link" activeClassName="active">
+        <NavLink to="/goals" className={linkClass}>
           <span className="icon" aria-hidden="true">
             🎯
           </span>
           {!collapsed && <span className="label">Goals</span>}
         </NavLink>
 
-        <NavLink to="/progress" className="nav-link" activeClassName="active">
+        <NavLink to="/progress" className={linkClass}>
           <span className="icon" aria-hidden="true">
             📈
           </span>
