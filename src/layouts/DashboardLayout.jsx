@@ -1,13 +1,31 @@
+// import { useState } from "react";
 // import Sidebar from "../components/Sidebar";
 // import Topbar from "../components/Topbar";
 // import "../styles/DashboardLayout.css";
 
 // export default function DashboardLayout({ children }) {
+//   const [sidebarOpen, setSidebarOpen] = useState(false);
+
 //   return (
 //     <div className="dashboard-layout">
-//       <Sidebar />
+//       {/* SIDEBAR */}
+//       <Sidebar
+//         isOpen={sidebarOpen}
+//         onClose={() => setSidebarOpen(false)}
+//       />
+
+//       {/* OVERLAY (mobile only) */}
+//       {sidebarOpen && (
+//         <div
+//           className="sidebar-overlay"
+//           onClick={() => setSidebarOpen(false)}
+//         />
+//       )}
+
+//       {/* MAIN CONTENT */}
 //       <div className="dashboard-main">
-//         <Topbar />
+//         <Topbar onMenuClick={() => setSidebarOpen(true)} />
+
 //         <div className="dashboard-content">
 //           {children}
 //         </div>
@@ -16,61 +34,34 @@
 //   );
 // }
 
-// import Sidebar from "../components/Sidebar";
-// import { useState } from "react";
-// import "../styles/DashboardLayout.css";
-
-// export default function DashboardLayout({ children }) {
-//   // Track if sidebar is collapsed from Sidebar
-//   const [collapsed, setCollapsed] = useState(false);
-
-//   // We'll pass collapse state to Sidebar
-//   return (
-//     <div className="dashboard-layout">
-//       <Sidebar collapsed={collapsed} setCollapsed={setCollapsed} />
-//       <main
-//         className={`dashboard-main ${collapsed ? "collapsed" : ""}`}
-//       >
-//         {children}
-//       </main>
-//     </div>
-//   );
-// }
 
 import { useState } from "react";
-import { NavLink, Outlet } from "react-router-dom";
-import "../styles/DashboardLayout.css"; // Create this for sidebar + layout styles
+import Sidebar from "../components/Sidebar";
+import Topbar from "../components/Topbar";
+import "../styles/DashboardLayout.css";
 
-const DashboardLayout = ({ children }) => {
-  const [collapsed, setCollapsed] = useState(false);
-
-  const toggleSidebar = () => setCollapsed(!collapsed);
+export default function DashboardLayout({ children }) {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    <div className={`dashboard-container ${collapsed ? "collapsed" : ""}`}>
-      <aside className="sidebar">
-        <button className="collapse-btn" onClick={toggleSidebar}>
-          {collapsed ? "▶" : "◀"}
-        </button>
+    <div className="dashboard-layout">
+      {/* SIDEBAR */}
+      <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
-        <nav className="nav-links">
-          <NavLink to="/dashboard" className="nav-item">
-            Dashboard
-          </NavLink>
-          <NavLink to="/goals" className="nav-item">
-            Goals
-          </NavLink>
-          <NavLink to="/progress" className="nav-item">
-            Progress
-          </NavLink>
-        </nav>
-      </aside>
+      {/* OVERLAY for mobile */}
+      {sidebarOpen && (
+        <div
+          className="sidebar-overlay"
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
 
-      <main className="main-content">
-        {children}
-      </main>
+      {/* MAIN CONTENT */}
+      <div className="dashboard-main">
+        <Topbar onMenuClick={() => setSidebarOpen(true)} />
+
+        <div className="dashboard-content">{children}</div>
+      </div>
     </div>
   );
-};
-
-export default DashboardLayout;
+}
