@@ -1,8 +1,9 @@
-*{
-    margin: 0;
-    padding: 0;
-    font-family: "Poppins", sans-serif;
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "Poppins", sans-serif;
 }
+
 .progress-page {
   padding: 24px;
 }
@@ -23,6 +24,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap; /* allow wrapping on smaller screens */
 }
 
 .tabs button {
@@ -51,15 +53,24 @@
   border-radius: 6px;
 }
 
-.empty { background: #e5e7eb; }
-.low { background: #facc15; }
-.medium { background: #2563eb; }
-.high { background: #22c55e; }
+.empty {
+  background: #e5e7eb;
+}
+.low {
+  background: #facc15;
+}
+.medium {
+  background: #2563eb;
+}
+.high {
+  background: #22c55e;
+}
 
 .legend {
   display: flex;
   gap: 16px;
   font-size: 14px;
+  flex-wrap: wrap; /* wrap legend items on small screens */
 }
 
 .legend i {
@@ -75,7 +86,8 @@ table {
   border-collapse: collapse;
 }
 
-th, td {
+th,
+td {
   padding: 12px 8px;
   border-bottom: 1px solid #e5e7eb;
   text-align: left;
@@ -100,7 +112,26 @@ th, td {
   margin-top: 8px;
 }
 
-/* RESPONSIVE */
+/* ===============================
+   RESPONSIVE
+================================ */
+
+/* Tablets */
+@media (max-width: 1024px) {
+  .progress-page {
+    padding: 16px;
+  }
+
+  .card {
+    padding: 16px;
+  }
+
+  .streak-grid {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+
+/* Small tablets / phones */
 @media (max-width: 768px) {
   .streak-grid {
     grid-template-columns: repeat(4, 1fr);
@@ -108,5 +139,51 @@ th, td {
 
   table {
     font-size: 14px;
+  }
+
+  th,
+  td {
+    padding: 8px 6px;
+  }
+
+  .badge {
+    font-size: 20px;
+    padding: 12px;
+  }
+}
+
+/* Extra small phones */
+@media (max-width: 480px) {
+  .progress-page {
+    padding: 12px;
+  }
+
+  .streak-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+
+  .streak-box {
+    height: 24px;
+  }
+
+  .legend {
+    font-size: 12px;
+    gap: 8px;
+  }
+
+  table {
+    font-size: 12px;
+    display: block;
+    overflow-x: auto; /* allow horizontal scroll */
+    white-space: nowrap;
+  }
+
+  .badge-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .badge {
+    font-size: 18px;
   }
 }

@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { registerUser } from "../services/auth";
+
 import "../styles/SignUp.css";
 
 const SignUp = () => {
@@ -19,13 +21,12 @@ const SignUp = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [success, setSuccess] = useState("");
 
-
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-  if (name === "phone") {
-    if (!/^[0-9+]*$/.test(value)) return;
-  }
+    if (name === "phone") {
+      if (!/^[0-9+]*$/.test(value)) return;
+    }
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
@@ -48,54 +49,44 @@ const SignUp = () => {
   };
 
   const validatePhone = (phone) => {
-  const cleaned = phone.replace(/\D/g, "");
+    const cleaned = phone.replace(/\D/g, "");
 
-  if (cleaned.length < 10 || cleaned.length > 15) {
-    return "Phone number must be between 10 and 15 digits";
-  }
+    if (cleaned.length < 10 || cleaned.length > 15) {
+      return "Phone number must be between 10 and 15 digits";
+    }
 
-  return "";
-};
+    return "";
+  };
 
   const handleSubmit = async (e) => {
-  e.preventDefault();
-  setError("");
+    e.preventDefault();
+    setError("");
+    setSuccess("");
 
-  const phoneError = validatePhone(formData.phone);
-  if (phoneError) {
-    setError(phoneError);
-    return;
-  }
+    const phoneError = validatePhone(formData.phone);
+    if (phoneError) return setError(phoneError);
 
+    const passwordError = validatePassword(formData.password);
+    if (passwordError) return setError(passwordError);
 
-  const passwordError = validatePassword(formData.password);
-  if (passwordError) {
-    setError(passwordError);
-    return;
-  }
+    if (formData.password !== formData.confirmPassword) {
+      return setError("Passwords do not match");
+    }
 
-  if (formData.password !== formData.confirmPassword) {
-    setError("Passwords do not match");
-    return;
-  }
+    try {
+      const result = await registerUser(formData);
 
-  // Save user
-  localStorage.setItem(
-    "user",
-    JSON.stringify({
-      fullName: formData.fullName,
-      email: formData.email,
-      isAuthenticated: true,
-    })
-  );
+      // Save auth data
+      
+      setSuccess(result.message || "Account created successfully!");
 
-  setError("");
-  setSuccess("Account created successfully!");
-
-  setTimeout(() => {
-    navigate("/dashboard");
-  }, 1200);
-};
+      setTimeout(() => {
+        navigate("/dashboard");
+      }, 1200);
+    } catch (err) {
+      setError(err.message);
+    }
+  };
 
   return (
     <div className="signup-container">
@@ -217,7 +208,6 @@ const SignUp = () => {
         {error && <p className="error-text">{error}</p>}
 
         {success && <div className="success-toast">{success}</div>}
-
 
         <button type="submit" className="signup-btn">
           Sign Up

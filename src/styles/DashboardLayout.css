@@ -1,4 +1,5 @@
-.dashboard-layout {
+/* Dashboard layout — consolidated */
+.layout {
   display: flex;
   min-height: 100vh;
   background: #f9fafb;
@@ -47,7 +48,12 @@
   .sidebar {
     width: 220px;
   }
-
+  .main-area {
+    margin-left: 0;
+  }
+  .dashboard-main {
+    padding: 16px;
+  }
   .dashboard-content {
     padding: 24px;
   }
