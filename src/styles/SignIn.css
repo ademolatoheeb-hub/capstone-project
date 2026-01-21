@@ -37,7 +37,6 @@
   font-size: 14px;
   font-weight: 600;
   color: #ffffff;
-  font: 1em sans-serif;
   margin-bottom: 4px;
 }
 
@@ -49,6 +48,7 @@
   background: transparent;
   outline: none;
   font-size: 14px;
+  color: #fff;
 }
 
 /* BUTTONS */
@@ -104,6 +104,12 @@
   text-align: center;
 }
 
+.success-text {
+  color: #22c55e;
+  font-size: 13px;
+  text-align: center;
+}
+
 .password-wrapper {
   position: relative;
 }
@@ -122,7 +128,6 @@
 .toggle-password:hover {
   color: #222222;
 }
-
 
 .forgot-password,
 .back-login {
@@ -143,17 +148,62 @@
   text-decoration: underline;
 }
 
-.success-text {
-  color: #22c55e;
-  font-size: 13px;
-  text-align: center;
+/* ===============================
+   RESPONSIVE
+================================ */
+
+/* Tablets */
+@media (max-width: 768px) {
+  .signin-form {
+    top: 25%;
+    width: 90%;
+  }
+
+  .signin-illustration img {
+    max-width: 360px;
+  }
+
+  .input-group input {
+    font-size: 13px;
+    padding: 10px 12px;
+  }
+
+  .signin-btn {
+    padding: 10px;
+    font-size: 14px;
+  }
 }
 
-
-/* RESPONSIVE */
+/* Phones */
 @media (max-width: 480px) {
   .signin-form {
     top: 42%;
     width: 85%;
+  }
+
+  .signin-illustration img {
+    max-width: 300px;
+  }
+
+  .hero h1 {
+    font-size: 24px;
+  }
+}
+
+/* Extra small phones */
+@media (max-width: 360px) {
+  .signin-form {
+    top: 45%;
+    width: 95%;
+  }
+
+  .signin-btn {
+    font-size: 13px;
+    padding: 8px;
+  }
+
+  .input-group input {
+    font-size: 12px;
+    padding: 8px 10px;
   }
 }

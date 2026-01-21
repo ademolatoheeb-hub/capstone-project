@@ -1,46 +1,37 @@
+/* Layout */
 .navbar {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 24px, 64px;
-} 
+  padding: 24px 64px;
+}
 
-.navbar-left{
+.navbar-left {
   display: flex;
   align-items: center;
 }
 
-.navbar-logo{
-  height: 60px;
-}
-
-.navbar-right{
-  display: flex;
-  align-items: center;
-  gap: 32px;
-}
-
-.hamburger {
-  display: none;
-}
-
-
-.logo img{
+.logo img {
   height: 60px;
   width: auto;
   display: block;
 }
 
-.logo{
-  height: 60px;
+/* Right side */
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 32px;
 }
 
-/* LINKS */
+/* Links */
 .nav-links {
   display: flex;
   align-items: center;
   list-style: none;
   gap: 1.5rem;
+  margin: 0;
+  padding: 0;
 }
 
 .nav-links a {
@@ -50,7 +41,7 @@
   font-size: 15px;
 }
 
-.nav-links .signin-btn {
+.signin-btn {
   text-decoration: none;
   padding: 0.4rem 1.2rem;
   border-radius: 20px;
@@ -60,49 +51,55 @@
   font-weight: 500;
 }
 
-/* TABLET & MOBILE */
-@media (max-width: 1023px) {
+/* Hamburger button (desktop hidden) */
+.navbar-hamburger {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+/* Mobile menu (hidden by default; shown when open state renders it) */
+.navbar-mobile-menu {
+  display: none;
+}
+
+/* Responsive: show hamburger and collapse links on small screens */
+@media (max-width: 768px) {
   .navbar {
-    padding: 0 24px;
+    padding: 12px 16px;
   }
 
-  .hamburger {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    cursor: pointer;
+  /* show hamburger */
+  .navbar-hamburger {
+    display: inline-block;
   }
 
-  .hamburger span {
-    width: 24px;
-    height: 2px;
-    background: #1f2937;
-  }
-
-  .nav-right {
-    position: absolute;
-    top: 72px;
-    right: 0;
-    width: 100%;
-    background: white;
-    flex-direction: column;
-    align-items: center;
-    gap: 24px;
-    padding: 24px 0;
+  /* hide inline nav links on small screens */
+  .nav-links {
     display: none;
   }
 
-  .nav-right.open {
+  /* mobile menu styling when open (JS renders the element) */
+  .navbar-mobile-menu {
     display: flex;
+    position: absolute;
+    top: 64px;
+    left: 0;
+    right: 0;
+    background: #fff;
+    flex-direction: column;
+    padding: 12px 0;
+    border-top: 1px solid #eee;
+    z-index: 50;
   }
 
-  .nav-links {
-    flex-direction: column;
-    gap: 16px;
-  }
-
-  .auth-buttons {
-    flex-direction: column;
-    gap: 12px;
+  .navbar-mobile-menu a {
+    padding: 12px 16px;
+    border-bottom: 1px solid #f3f4f6;
+    text-decoration: none;
+    color: #111;
+    font-weight: 600;
   }
 }

@@ -80,3 +80,78 @@
   margin-bottom: 16px;
   font-size: 14px;
 }
+
+/* ===============================
+   RESPONSIVE
+================================ */
+
+/* Tablets */
+@media (max-width: 768px) {
+  .signup-form {
+    padding: 24px;
+    max-width: 360px;
+  }
+
+  .signup-form h2 {
+    font-size: 20px;
+    margin-bottom: 20px;
+  }
+
+  .signup-form input {
+    font-size: 13px;
+    padding: 12px 14px;
+  }
+
+  .signup-btn {
+    padding: 12px;
+    font-size: 14px;
+  }
+}
+
+/* Phones */
+@media (max-width: 480px) {
+  .signup-container {
+    padding: 12px;
+  }
+
+  .signup-form {
+    padding: 20px;
+    max-width: 100%;
+  }
+
+  .signup-form h2 {
+    font-size: 18px;
+  }
+
+  .signup-form input {
+    font-size: 12px;
+    padding: 10px 12px;
+  }
+
+  .signup-btn {
+    font-size: 13px;
+    padding: 10px;
+  }
+
+  .error-text,
+  .success-toast {
+    font-size: 12px;
+  }
+}
+
+/* Extra small phones */
+@media (max-width: 360px) {
+  .signup-form {
+    padding: 16px;
+    border-radius: 12px;
+  }
+
+  .signup-form h2 {
+    font-size: 16px;
+  }
+
+  .signup-btn {
+    font-size: 12px;
+    padding: 8px;
+  }
+}

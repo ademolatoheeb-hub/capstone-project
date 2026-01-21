@@ -1,45 +1,67 @@
+// src/components/Sidebar.jsx
 import { NavLink } from "react-router-dom";
-import { useState } from "react";
-import "../components/sidebar.css";
+import { useState, useEffect } from "react";
+import "./sidebar.css";
+
 import logo from "../assets/images/logo.png";
 
 export default function Sidebar() {
   const [collapsed, setCollapsed] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const onResize = () => setIsMobile(window.innerWidth <= 768);
+    onResize();
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
+
+  // If mobile, always hide sidebar (topbar hamburger will control mobile menu)
+  if (isMobile) return null;
 
   return (
-    <aside className={`sidebar ${collapsed ? "collapsed" : ""}`}>
-      {/* LOGO + COLLAPSE BUTTON */}
+    <aside
+      className={`sidebar ${collapsed ? "collapsed" : ""}`}
+      aria-label="Primary navigation"
+    >
       <div className="sidebar-header">
         <div className="sidebar-logo">
           <img src={logo} alt="Focuset logo" />
-          {!collapsed && <span>Focuset</span>}
+          {!collapsed && <span className="brand">Focuset</span>}
         </div>
 
         <button
           className="collapse-btn"
-          onClick={() => setCollapsed(!collapsed)}
-          aria-label="Toggle sidebar"
+          onClick={() => setCollapsed((s) => !s)}
+          aria-pressed={collapsed}
+          aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
         >
           {collapsed ? "➡️" : "⬅️"}
         </button>
       </div>
 
-      {/* NAVIGATION */}
-      <nav className="nav">
-        <NavLink to="/dashboard" className="nav-link">
-          📊 {!collapsed && <span>Dashboard</span>}
+      <nav className="nav" role="navigation" aria-label="Dashboard links">
+        <NavLink to="/dashboard" className="nav-link" activeClassName="active">
+          <span className="icon" aria-hidden="true">
+            📊
+          </span>
+          {!collapsed && <span className="label">Dashboard</span>}
         </NavLink>
 
-        <NavLink to="/goals" className="nav-link">
-          🎯 {!collapsed && <span>Goals</span>}
+        <NavLink to="/goals" className="nav-link" activeClassName="active">
+          <span className="icon" aria-hidden="true">
+            🎯
+          </span>
+          {!collapsed && <span className="label">Goals</span>}
         </NavLink>
 
-        <NavLink to="/progress" className="nav-link">
-          📈 {!collapsed && <span>Progress</span>}
+        <NavLink to="/progress" className="nav-link" activeClassName="active">
+          <span className="icon" aria-hidden="true">
+            📈
+          </span>
+          {!collapsed && <span className="label">Progress</span>}
         </NavLink>
       </nav>
     </aside>
   );
 }
-
-

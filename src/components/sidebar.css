@@ -1,3 +1,4 @@
+/* src/styles/sidebar.css */
 .sidebar {
   width: 260px;
   height: 100vh;
@@ -7,13 +8,19 @@
   position: fixed;
   top: 0;
   left: 0;
-  transition: width 0.3s ease;
+  transition:
+    width 0.3s ease,
+    padding 0.3s ease;
   z-index: 1000;
+  box-sizing: border-box;
+  overflow: auto;
 }
 
 /* COLLAPSED STATE */
 .sidebar.collapsed {
   width: 80px;
+  padding-left: 12px;
+  padding-right: 12px;
 }
 
 /* HEADER */
@@ -34,9 +41,10 @@
 .sidebar-logo img {
   width: 36px;
   height: 36px;
+  object-fit: contain;
 }
 
-.sidebar-logo span {
+.sidebar-logo .brand {
   font-size: 18px;
   font-weight: 700;
   color: #111827;
@@ -48,24 +56,35 @@
   border: none;
   font-size: 18px;
   cursor: pointer;
+  padding: 6px;
+  line-height: 1;
 }
 
 /* NAV */
 .nav {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 8px;
 }
 
 .nav-link {
-  padding: 14px 16px;
-  border-radius: 12px;
+  padding: 12px 14px;
+  border-radius: 10px;
   color: #374151;
   text-decoration: none;
   display: flex;
   align-items: center;
   gap: 12px;
   font-weight: 500;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
+}
+
+.nav-link .icon {
+  font-size: 18px;
+  width: 24px;
+  text-align: center;
 }
 
 /* ACTIVE LINK */
@@ -79,4 +98,43 @@
   justify-content: center;
 }
 
+/* Ensure labels are hidden visually when collapsed but remain accessible if needed */
+.sidebar.collapsed .label {
+  display: none;
+}
 
+/* Desktop main content offset (if you use .dashboard-main) */
+.dashboard-main,
+.dashboard {
+  margin-left: 260px;
+  transition: margin-left 0.3s ease;
+}
+
+.sidebar.collapsed ~ .dashboard-main,
+.sidebar.collapsed ~ .dashboard {
+  margin-left: 80px;
+}
+
+/* Hide sidebar on small screens so topbar hamburger is visible */
+@media (max-width: 768px) {
+  .sidebar {
+    display: none;
+    width: 0;
+    padding: 0;
+    border-right: none;
+  }
+
+  .dashboard-main,
+  .dashboard {
+    margin-left: 0 !important;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+}
+
+/* Small visual tweaks */
+@media (min-width: 769px) {
+  .sidebar.collapsed .sidebar-logo .brand {
+    display: none;
+  }
+}
