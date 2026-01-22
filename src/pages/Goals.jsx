@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import GoalForm from "../components/GoalForm";
 import GoalMiniModal from "../components/GoalMiniModal";
+import StreakModal from "../components/StreakModal";
 import "../styles/goals.css";
 import { getGoals } from "../services/goal";
 
@@ -9,7 +10,8 @@ export default function Goals() {
   const [activeGoals, setActiveGoals] = useState([]);
   const [archivedGoals, setArchivedGoals] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [selectedGoal, setSelectedGoal] = useState(null); // <-- modal target
+  const [selectedGoal, setSelectedGoal] = useState(null); // modal target for mini goals
+  const [openStreakGoalId, setOpenStreakGoalId] = useState(null); // modal target for streak
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -43,12 +45,20 @@ export default function Goals() {
     );
   };
 
-  // Helper to open modal (keeps console log for debugging)
+  // Helper to open mini-goal modal
   const openGoal = (goal) => {
     console.log("Opening goal modal:", goal._id);
     setSelectedGoal(goal);
     console.log("openGoal:", goal._id, goal.steps);
   };
+
+  // Helper to open streak modal for a goal id
+  const openStreak = (goalId) => {
+    setOpenStreakGoalId(goalId);
+  };
+
+  // Replace with your actual API base or keep empty if you use a proxy
+  const apiBase = ""; // e.g., "http://localhost:5000"
 
   return (
     <div className="app-layout">
@@ -74,12 +84,13 @@ export default function Goals() {
                       <th>Due Date</th>
                       <th>Status</th>
                       <th></th>
+                      <th></th>
                     </tr>
                   </thead>
                   <tbody>
                     {activeGoals.length === 0 ? (
                       <tr>
-                        <td colSpan="5" className="muted center">
+                        <td colSpan="6" className="muted center">
                           No active goals
                         </td>
                       </tr>
@@ -87,7 +98,6 @@ export default function Goals() {
                       activeGoals.map((goal) => (
                         <tr key={goal._id} className="clickable-row">
                           <td>
-                            {/* full-row button is more reliable than onClick on <tr> */}
                             <button
                               type="button"
                               className="row-btn"
@@ -109,15 +119,28 @@ export default function Goals() {
                           <td className={`status ${goal.status}`}>
                             {goal.status}
                           </td>
+
                           <td>
                             <button
                               className="edit-btn"
                               onClick={(e) => {
-                                e.stopPropagation(); // ensure Edit doesn't trigger the row button
-                                openGoal(goal); // open same modal for editing if desired
+                                e.stopPropagation();
+                                openGoal(goal);
                               }}
                             >
                               Edit
+                            </button>
+                          </td>
+
+                          <td>
+                            <button
+                              className="streak-btn"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                openStreak(goal._id);
+                              }}
+                            >
+                              Streak
                             </button>
                           </td>
                         </tr>
@@ -222,13 +245,22 @@ export default function Goals() {
         </div>
       </div>
 
-      {/* Modal */}
+      {/* Mini-goal modal */}
       {selectedGoal && (
         <GoalMiniModal
-          apiBase={""} // pass your apiBase if needed
+          apiBase={apiBase}
           goal={selectedGoal}
           onClose={() => setSelectedGoal(null)}
           onGoalUpdated={updateGoalInState}
+        />
+      )}
+
+      {/* Streak modal (single instance) */}
+      {openStreakGoalId && (
+        <StreakModal
+          apiBase={apiBase}
+          goalId={openStreakGoalId}
+          onClose={() => setOpenStreakGoalId(null)}
         />
       )}
 

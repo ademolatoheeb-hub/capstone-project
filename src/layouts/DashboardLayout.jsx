@@ -56,16 +56,7 @@ export default function DashboardLayout({ children }) {
         />
       )}
 
-<<<<<<< HEAD
-      {/* MAIN CONTENT */}
-      <div className="dashboard-main">
-        <Topbar onMenuClick={() => setSidebarOpen(true)} />
-
-        <div className="dashboard-content">{children}</div>
-      </div>
-=======
       <main className="main-content">{children}</main>
->>>>>>> 00fe9cc8c655c3d6d1b701d234a5e4872fa752c0
     </div>
   );
 }

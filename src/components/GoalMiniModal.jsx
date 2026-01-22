@@ -1,17 +1,19 @@
+// services/goalsService.js
+// const BASE_URL = "https://capstone-project-9o17.onrender.com/api/goals";
+const BASE_URL = "http://127.0.0.1:45555/student";
+const token = localStorage.getItem("authToken");
+
 // src/components/GoalMiniModal.jsx
 import { useEffect, useState } from "react";
 import "./GoalMiniModal.css";
+import { getGoals } from "../services/goal";
 
 export default function GoalMiniModal({
-  apiBase = "",
+  apiBase = "http://127.0.0.1:45555/student/",
   goal,
   onClose,
   onGoalUpdated,
 }) {
-  // debug logs (moved out of JSX)
-  console.log("GoalMiniModal mounted, goal:", goal);
-  console.log("GoalMiniModal initial steps:", goal?.steps ?? goal?.miniGoals);
-
   // initialize from goal.steps (fallback to miniGoals)
   const [miniGoals, setMiniGoals] = useState(
     goal?.steps ?? goal?.miniGoals ?? [],
@@ -43,6 +45,7 @@ export default function GoalMiniModal({
           body: JSON.stringify(body),
         },
       );
+      getGoals();
       if (!res.ok) {
         const text = await res.text();
         throw new Error(text || "Failed to update step");
@@ -67,34 +70,38 @@ export default function GoalMiniModal({
   }
 
   // helper: call a specific backend route for a mini-goal action
-  async function patchMiniGoalByRoute(routePath, index, body) {
-    // routePath should be a string like: `/api/goals/${goal._id}/minigoals/${index}/done`
+  async function markMiniGoalDone(index) {
     setLoadingIndex(index);
     setError(null);
+
     try {
-      const res = await fetch(`${apiBase}${routePath}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body || {}),
-      });
+      const res = await fetch(
+        `${BASE_URL}/goal/${goal._id}/step/${index}/done`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            ...(token && { Authorization: `Bearer ${token}` }),
+          },
+        },
+      );
+
       if (!res.ok) {
-        const text = await res.text();
-        throw new Error(text || "Failed to update mini-goal");
+        const text = await res.json();
+        throw new Error(text.message || "Failed to update mini-goal");
       }
-      const updatedGoal = await res.json(); // expect updated goal or updated steps
-      const updatedSteps = updatedGoal?.steps ?? updatedGoal?.miniGoals ?? null;
-      if (updatedSteps) {
-        setMiniGoals(updatedSteps);
-        onGoalUpdated && onGoalUpdated(updatedGoal);
-      } else {
-        // fallback: merge partial change locally
-        setMiniGoals((prev) =>
-          prev.map((m, i) => (i === index ? { ...m, ...body } : m)),
-        );
+
+      const updatedGoal = await res.json(); // backend returns updated goal
+
+      // Prefer backend truth
+      if (updatedGoal?.steps) {
+        setMiniGoals(updatedGoal.steps);
+        onGoalUpdated?.(updatedGoal);
       }
+
       return { ok: true, updatedGoal };
     } catch (err) {
-      console.error("patchMiniGoalByRoute error:", err);
+      console.error("markMiniGoalDone error:", err);
       setError(err.message || "Network error");
       return { ok: false, error: err };
     } finally {
@@ -109,7 +116,7 @@ export default function GoalMiniModal({
         i === index ? { ...m, completed: true, done: true } : m,
       ),
     );
-    await patchMiniGoalByRoute(index, { completed: true, done: true });
+    await markMiniGoalDone(index, { completed: true, done: true });
   };
 
   // undo done
