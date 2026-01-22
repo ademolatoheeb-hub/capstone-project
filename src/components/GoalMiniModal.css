@@ -1,0 +1,223 @@
+/* Modal backdrop and container */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(2, 6, 23, 0.55);
+  z-index: 9999;
+  padding: 20px;
+}
+
+.modal {
+  width: 100%;
+  max-width: 880px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 20px 50px rgba(2, 6, 23, 0.35);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  color: #0f172a;
+}
+
+/* Header / footer */
+.modal-header,
+.modal-footer {
+  padding: 16px 20px;
+  background: #fbfdff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  border-bottom: 1px solid #eef2f7;
+}
+.modal-header h4 {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #0b1220;
+}
+.close-btn {
+  background: transparent;
+  border: none;
+  font-size: 1.125rem;
+  cursor: pointer;
+  color: #374151;
+  padding: 6px;
+  border-radius: 6px;
+}
+.close-btn:focus {
+  outline: 2px solid #c7e0ff;
+}
+
+/* Body */
+.modal-body {
+  padding: 16px 20px;
+  max-height: 60vh;
+  overflow: auto;
+  background: #fff;
+}
+
+/* Table styling */
+.mini-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+  color: #0f172a;
+  background: #fff;
+  min-width: 320px;
+}
+
+.mini-table thead th {
+  position: sticky;
+  top: 0;
+  background: linear-gradient(180deg, #ffffff, #fbfdff);
+  padding: 12px 14px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #0b1220;
+  border-bottom: 1px solid #e6eef6;
+  z-index: 2;
+}
+
+.mini-table tbody tr {
+  transition: background 120ms ease;
+}
+.mini-table tbody tr:nth-child(odd) {
+  background: #ffffff;
+}
+.mini-table tbody tr:nth-child(even) {
+  background: #fbfdff;
+}
+.mini-table tbody tr:hover {
+  background: #f1f5f9;
+}
+
+/* Cells */
+.mini-table td {
+  padding: 12px 14px;
+  border-bottom: 1px solid #eef2f7;
+  vertical-align: middle;
+}
+
+/* Status pill */
+.status-pill {
+  display: inline-block;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #0b1220;
+  background: #eef2ff;
+}
+
+/* Done state */
+.done {
+  text-decoration: line-through;
+  color: #6b7280;
+}
+
+/* Action buttons */
+.mini-table button {
+  margin-left: 6px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  background: #f8fafc;
+  color: #0b1220;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+.mini-table button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(2, 6, 23, 0.06);
+}
+.mini-table button:active {
+  transform: translateY(0);
+}
+.mini-table .primary {
+  background: #0ea5a4;
+  color: #fff;
+  border-color: rgba(14, 165, 164, 0.12);
+}
+.mini-table .danger {
+  background: #fee2e2;
+  color: #b91c1c;
+  border-color: rgba(185, 28, 28, 0.06);
+}
+
+/* Row button (used in Goals list) */
+.row-btn {
+  text-align: left;
+  padding: 10px 6px;
+  display: block;
+  width: 100%;
+  color: #0b1220;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+.row-btn:focus {
+  outline: 2px solid #c7e0ff;
+  border-radius: 6px;
+}
+
+/* Error */
+.error {
+  color: #b91c1c;
+  margin-top: 8px;
+  font-weight: 600;
+}
+
+/* Responsive: stack table into cards on small screens */
+@media (max-width: 720px) {
+  .modal {
+    max-width: 96%;
+  }
+  .mini-table thead {
+    display: none;
+  }
+  .mini-table,
+  .mini-table tbody,
+  .mini-table tr,
+  .mini-table td {
+    display: block;
+    width: 100%;
+  }
+  .mini-table tr {
+    margin-bottom: 12px;
+    border-radius: 10px;
+    padding: 12px;
+    background: #fff;
+    box-shadow: 0 6px 18px rgba(2, 6, 23, 0.03);
+  }
+  .mini-table td {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 12px;
+    border-bottom: none;
+  }
+  .mini-table td::before {
+    content: attr(data-label);
+    font-weight: 600;
+    color: #475569;
+    margin-right: 8px;
+    flex: 0 0 45%;
+    text-align: left;
+  }
+  .mini-table td > .actions {
+    flex: 0 0 55%;
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+  }
+}
+
+/* Small polish */
+.modal-footer {
+  border-top: 1px solid #eef2f7;
+  background: #fbfdff;
+}
