@@ -1,3 +1,27 @@
+<<<<<<< HEAD
+const TopBar = ({ onMenuClick }) => {
+  return (
+    <div className="topbar">
+      {/* MENU BUTTON (VISIBLE ON MOBILE/TABLET) */}
+      <button
+        className="menu-btn"
+        onClick={onMenuClick}
+        aria-label="Open sidebar"
+      >
+        ☰
+      </button>
+
+      {/* SEARCH */}
+      <input
+        type="text"
+        placeholder="Search for goals..."
+        className="search-input"
+      />
+
+      {/* USER INFO */}
+      <div className="user-info">
+        <span>Welcome back, User</span>
+=======
 // src/components/Topbar.jsx
 import { useState, useEffect } from "react";
 import "../styles/topbar.css";
@@ -30,8 +54,13 @@ export default function Topbar() {
           className="search-input"
           aria-label="Search goals"
         />
+>>>>>>> 00fe9cc8c655c3d6d1b701d234a5e4872fa752c0
       </div>
 
+<<<<<<< HEAD
+export default TopBar;
+
+=======
       <div className="topbar-right">
         <div className="user-info" aria-hidden={open ? "true" : "false"}>
           <span className="welcome">Welcome back, Timi</span>
@@ -68,3 +97,4 @@ export default function Topbar() {
     </header>
   );
 }
+>>>>>>> 00fe9cc8c655c3d6d1b701d234a5e4872fa752c0

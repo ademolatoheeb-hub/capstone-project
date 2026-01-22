@@ -1,67 +1,80 @@
-// src/components/Sidebar.jsx
-import { NavLink } from "react-router-dom";
-import { useState, useEffect } from "react";
-import "./sidebar.css";
+import { NavLink, useNavigate } from "react-router-dom";
+import "../components/sidebar.css";
 import logo from "../assets/images/logo.png";
 
-export default function Sidebar() {
-  const [collapsed, setCollapsed] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
+export default function Sidebar({ isOpen = false, onClose }) {
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    const onResize = () => setIsMobile(window.innerWidth <= 768);
-    onResize();
-    window.addEventListener("resize", onResize);
-    return () => window.removeEventListener("resize", onResize);
-  }, []);
-
-  // Hide sidebar on mobile; Topbar hamburger will control mobile menu
-  if (isMobile) return null;
-
-  const linkClass = ({ isActive }) => `nav-link${isActive ? " active" : ""}`;
+  const handleLogout = () => {
+    localStorage.removeItem("isAuth");
+    navigate("/signin");
+    if (onClose) onClose();
+  };
 
   return (
-    <aside
-      className={`sidebar ${collapsed ? "collapsed" : ""}`}
-      aria-label="Primary navigation"
-    >
+    <aside className={`sidebar ${isOpen ? "open" : ""}`}>
+      {/* LOGO */}
       <div className="sidebar-header">
-        <div className="sidebar-logo">
-          <img src={logo} alt="Focuset logo" />
-          {!collapsed && <span className="brand">Focuset</span>}
-        </div>
-
-        <button
-          className="collapse-btn"
-          onClick={() => setCollapsed((s) => !s)}
-          aria-pressed={collapsed}
-          aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
-        >
-          {collapsed ? "➡️" : "⬅️"}
-        </button>
+        <img src={logo} alt="Focuset logo" className="sidebar-logo" />
+        <span className="sidebar-title">Focuset</span>
       </div>
 
-      <nav className="nav" role="navigation" aria-label="Dashboard links">
-        <NavLink to="/dashboard" className={linkClass}>
-          <span className="icon" aria-hidden="true">
-            📊
-          </span>
-          {!collapsed && <span className="label">Dashboard</span>}
+      {/* NAVIGATION */}
+      <nav className="nav">
+        <NavLink
+          to="/dashboard"
+          className={({ isActive }) =>
+            `nav-link ${isActive ? "active" : ""}`
+          }
+          onClick={onClose}
+        >
+          Dashboard
         </NavLink>
 
-        <NavLink to="/goals" className={linkClass}>
-          <span className="icon" aria-hidden="true">
-            🎯
-          </span>
-          {!collapsed && <span className="label">Goals</span>}
+        <NavLink
+          to="/goals"
+          className={({ isActive }) =>
+            `nav-link ${isActive ? "active" : ""}`
+          }
+          onClick={onClose}
+        >
+          Goals
         </NavLink>
 
-        <NavLink to="/progress" className={linkClass}>
-          <span className="icon" aria-hidden="true">
-            📈
-          </span>
-          {!collapsed && <span className="label">Progress</span>}
+        <NavLink
+          to="/progress"
+          className={({ isActive }) =>
+            `nav-link ${isActive ? "active" : ""}`
+          }
+          onClick={onClose}
+        >
+          Progress
         </NavLink>
+
+          <NavLink
+          to="/profile"
+          className={({ isActive }) =>
+            `nav-link ${isActive ? "active" : ""}`
+          }
+          onClick={onClose}
+        >
+          Profile
+        </NavLink>
+
+        <NavLink
+          to="/settings"
+          className={({ isActive }) =>
+            `nav-link ${isActive ? "active" : ""}`
+          }
+          onClick={onClose}
+        >
+          Settings
+        </NavLink>
+
+        {/* LOGOUT */}
+        <button className="nav-link logout-btn" onClick={handleLogout}>
+          Log out
+        </button>
       </nav>
     </aside>
   );
