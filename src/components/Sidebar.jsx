@@ -16,7 +16,7 @@ export default function Sidebar({ isOpen = false, onClose }) {
       {/* LOGO */}
       <div className="sidebar-header">
         <img src={logo} alt="Focuset logo" className="sidebar-logo" />
-        <span className="sidebar-title">Focuset</span>
+        <h3>Build consistent learning habits</h3>
       </div>
 
       {/* NAVIGATION */}
