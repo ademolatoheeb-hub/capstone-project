@@ -25,7 +25,7 @@ export async function createGoal(goalData) {
   if (!res.ok) {
     // backend might return { message } OR { error }
     console.log(data.message);
-    throw new Error(data.message || "Registration failed");
+    throw new Error(data.message || data.error || "Registration failed");
   }
 
   return data; // backend returns { message, data } or { error }
