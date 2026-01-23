@@ -1,6 +1,6 @@
 // services/authService.js
-const BASE_URL = "http://127.0.0.1:45555/student";
-// const BASE_URL = "https://capstone-project-9o17.onrender.com";
+//const BASE_URL = "http://127.0.0.1:45555/student";
+const BASE_URL = "https://capstone-project-9o17.onrender.com/student";
 
 export async function registerUser(data) {
   const response = await fetch(`${BASE_URL}/register`, {
@@ -19,7 +19,7 @@ export async function registerUser(data) {
   const result = await response.json();
 
   if (!response.ok) {
-    throw new Error(result.message || "Registration failed");
+    throw new Error(result.message || result.error || "Registration failed");
   }
 
   // Save token if backend returns it
@@ -40,7 +40,7 @@ export async function loginUser(main, password) {
   const data = await response.json();
 
   if (!response.ok) {
-    throw new Error(data.message || "Invalid email or password");
+    throw new Error(data.message || data.error || "Invalid email or password");
   }
 
   // Save token

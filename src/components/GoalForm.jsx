@@ -192,10 +192,6 @@ export default function GoalForm() {
           <option value="Weekly">Weekly</option>
         </select>
 
-        <p className="muted">
-          Choose Once or All. If you choose All, it applies to every mini goal.
-        </p>
-
         <label>Mini Goals</label>
         {steps.map((step, index) => (
           <div key={index} className="step-row">
@@ -220,7 +216,7 @@ export default function GoalForm() {
             onClick={handleGenerateSubscriptionForAll}
             disabled={loading}
           >
-            Generate Subscription for All Mini Goals
+            Subscribe
           </button>
 
           <button type="submit" className="primary-btn" disabled={loading}>
