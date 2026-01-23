@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import App from "./App";
-import {Toaster} from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
 
 <Toaster
   position="top-right"
@@ -12,13 +12,12 @@ import {Toaster} from "react-hot-toast";
       padding: "12px 16px",
     },
   }}
-/>
-
+/>;
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <BrowserRouter basename="/focuset">
-    <App />
+    <BrowserRouter basename="/">
+      <App />
     </BrowserRouter>
-  </React.StrictMode>
+  </React.StrictMode>,
 );
