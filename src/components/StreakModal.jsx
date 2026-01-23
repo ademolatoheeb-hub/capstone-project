@@ -1,7 +1,7 @@
 // src/components/StreakModal.jsx
 import { useEffect, useState } from "react";
 import "./StreakModal.css"; // CSS provided below
-const apiB = "http://127.0.0.1:45555/student";
+const apiB = "https://capstone-project-9o17.onrender.com/student";
 const token = localStorage.getItem("authToken");
 
 export default function StreakModal({
