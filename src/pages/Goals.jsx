@@ -1,5 +1,8 @@
+// src/pages/Goals.jsx
 import { useEffect, useState } from "react";
 import GoalForm from "../components/GoalForm";
+import GoalMiniModal from "../components/GoalMiniModal";
+import StreakModal from "../components/StreakModal";
 import "../styles/goals.css";
 import { getGoals } from "../services/goal";
 
@@ -7,6 +10,9 @@ export default function Goals() {
   const [activeGoals, setActiveGoals] = useState([]);
   const [archivedGoals, setArchivedGoals] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [selectedGoal, setSelectedGoal] = useState(null); // modal target for mini goals
+  const [openStreakGoalId, setOpenStreakGoalId] = useState(null); // modal target for streak
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchGoals = async () => {
@@ -21,13 +27,38 @@ export default function Goals() {
         setActiveGoals(active);
         setArchivedGoals(archived);
       } catch (err) {
-        alert(err.message);
+        setError(err.message || "Failed to load goals");
       } finally {
         setLoading(false);
       }
     };
     fetchGoals();
   }, []);
+
+  // update a single goal in state after changes from modal
+  const updateGoalInState = (updatedGoal) => {
+    setActiveGoals((prev) =>
+      prev.map((g) => (g._id === updatedGoal._id ? updatedGoal : g)),
+    );
+    setArchivedGoals((prev) =>
+      prev.map((g) => (g._id === updatedGoal._id ? updatedGoal : g)),
+    );
+  };
+
+  // Helper to open mini-goal modal
+  const openGoal = (goal) => {
+    console.log("Opening goal modal:", goal._id);
+    setSelectedGoal(goal);
+    console.log("openGoal:", goal._id, goal.steps);
+  };
+
+  // Helper to open streak modal for a goal id
+  const openStreak = (goalId) => {
+    setOpenStreakGoalId(goalId);
+  };
+
+  // Replace with your actual API base or keep empty if you use a proxy
+  const apiBase = ""; // e.g., "http://localhost:5000"
 
   return (
     <div className="app-layout">
@@ -53,26 +84,64 @@ export default function Goals() {
                       <th>Due Date</th>
                       <th>Status</th>
                       <th></th>
+                      <th></th>
                     </tr>
                   </thead>
                   <tbody>
                     {activeGoals.length === 0 ? (
                       <tr>
-                        <td colSpan="5" className="muted center">
+                        <td colSpan="6" className="muted center">
                           No active goals
                         </td>
                       </tr>
                     ) : (
                       activeGoals.map((goal) => (
-                        <tr key={goal._id}>
-                          <td>{goal.title}</td>
+                        <tr key={goal._id} className="clickable-row">
+                          <td>
+                            <button
+                              type="button"
+                              className="row-btn"
+                              onClick={() => openGoal(goal)}
+                              aria-label={`Open ${goal.title} mini goals`}
+                              style={{
+                                all: "unset",
+                                display: "block",
+                                width: "100%",
+                                cursor: "pointer",
+                              }}
+                            >
+                              {goal.title}
+                            </button>
+                          </td>
+
                           <td>{goal.startDate?.slice(0, 10)}</td>
                           <td>{goal.endDate?.slice(0, 10)}</td>
                           <td className={`status ${goal.status}`}>
                             {goal.status}
                           </td>
+
                           <td>
-                            <button className="edit-btn">Edit</button>
+                            <button
+                              className="edit-btn"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                openGoal(goal);
+                              }}
+                            >
+                              Edit
+                            </button>
+                          </td>
+
+                          <td>
+                            <button
+                              className="streak-btn"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                openStreak(goal._id);
+                              }}
+                            >
+                              Streak
+                            </button>
                           </td>
                         </tr>
                       ))
@@ -108,12 +177,35 @@ export default function Goals() {
                       </tr>
                     ) : (
                       archivedGoals.map((goal) => (
-                        <tr key={goal._id}>
-                          <td>{goal.title}</td>
+                        <tr key={goal._id} className="clickable-row">
+                          <td>
+                            <button
+                              type="button"
+                              className="row-btn"
+                              onClick={() => openGoal(goal)}
+                              aria-label={`Open ${goal.title} mini goals`}
+                              style={{
+                                all: "unset",
+                                display: "block",
+                                width: "100%",
+                                cursor: "pointer",
+                              }}
+                            >
+                              {goal.title}
+                            </button>
+                          </td>
                           <td>{goal.endDate?.slice(0, 10)}</td>
                           <td>{goal.notes || "-"}</td>
                           <td>
-                            <button className="edit-btn">Edit</button>
+                            <button
+                              className="edit-btn"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                openGoal(goal);
+                              }}
+                            >
+                              Edit
+                            </button>
                           </td>
                         </tr>
                       ))
@@ -129,15 +221,15 @@ export default function Goals() {
             <section className="card summary-card">
               <h3>Goal Summary</h3>
               <div className="summary-item">
-                <span className="dot blue"></span> Active Goals{" "}
+                <span className="dot blue" /> Active Goals{" "}
                 <b>{activeGoals.length}</b>
               </div>
               <div className="summary-item">
-                <span className="dot green"></span> Completed Goals{" "}
+                <span className="dot green" /> Completed Goals{" "}
                 <b>{archivedGoals.length}</b>
               </div>
               <div className="summary-item">
-                <span className="dot red"></span> Overdue Goals{" "}
+                <span className="dot red" /> Overdue Goals{" "}
                 <b>
                   {
                     activeGoals.filter(
@@ -152,6 +244,27 @@ export default function Goals() {
           </div>
         </div>
       </div>
+
+      {/* Mini-goal modal */}
+      {selectedGoal && (
+        <GoalMiniModal
+          apiBase={apiBase}
+          goal={selectedGoal}
+          onClose={() => setSelectedGoal(null)}
+          onGoalUpdated={updateGoalInState}
+        />
+      )}
+
+      {/* Streak modal (single instance) */}
+      {openStreakGoalId && (
+        <StreakModal
+          apiBase={apiBase}
+          goalId={openStreakGoalId}
+          onClose={() => setOpenStreakGoalId(null)}
+        />
+      )}
+
+      {error && <div className="error">{error}</div>}
     </div>
   );
 }
