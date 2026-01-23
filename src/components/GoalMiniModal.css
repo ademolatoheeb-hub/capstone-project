@@ -1,139 +1,150 @@
-/* Modal backdrop and container */
+/* === Modal Backdrop & Container === */
 .modal-backdrop {
   position: fixed;
   inset: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(2, 6, 23, 0.55);
+  background: rgba(15, 23, 42, 0.55); /* deep slate overlay */
   z-index: 9999;
   padding: 20px;
 }
 
 .modal {
   width: 100%;
-  max-width: 880px;
+  max-width: 860px;
   background: #ffffff;
   border-radius: 12px;
-  box-shadow: 0 20px 50px rgba(2, 6, 23, 0.35);
-  overflow: hidden;
+  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.25);
   display: flex;
   flex-direction: column;
+  overflow: hidden;
   color: #0f172a;
 }
 
-/* Header / footer */
+/* === Header & Footer === */
 .modal-header,
 .modal-footer {
   padding: 16px 20px;
-  background: #fbfdff;
+  background: #f9fafb;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
-  border-bottom: 1px solid #eef2f7;
+  border-bottom: 1px solid #e5e7eb;
 }
+
+.modal-footer {
+  border-top: 1px solid #e5e7eb;
+}
+
 .modal-header h4 {
   margin: 0;
   font-size: 1.125rem;
   font-weight: 600;
-  color: #0b1220;
+  color: #111827;
 }
+
 .close-btn {
   background: transparent;
   border: none;
-  font-size: 1.125rem;
+  font-size: 1.25rem;
   cursor: pointer;
   color: #374151;
   padding: 6px;
   border-radius: 6px;
+  transition: background 0.2s ease;
+}
+.close-btn:hover {
+  background: #f3f4f6;
 }
 .close-btn:focus {
-  outline: 2px solid #c7e0ff;
+  outline: 2px solid #93c5fd;
 }
 
-/* Body */
+/* === Body === */
 .modal-body {
   padding: 16px 20px;
-  max-height: 60vh;
-  overflow: auto;
+  max-height: 65vh;
+  overflow-y: auto;
   background: #fff;
 }
 
-/* Table styling */
+/* === Table === */
 .mini-table {
   width: 100%;
   border-collapse: collapse;
   font-size: 0.95rem;
-  color: #0f172a;
-  background: #fff;
-  min-width: 320px;
+  color: #111827;
 }
 
 .mini-table thead th {
   position: sticky;
   top: 0;
-  background: linear-gradient(180deg, #ffffff, #fbfdff);
+  background: #f9fafb;
   padding: 12px 14px;
   text-align: left;
   font-weight: 600;
   font-size: 0.9rem;
-  color: #0b1220;
-  border-bottom: 1px solid #e6eef6;
-  z-index: 2;
+  border-bottom: 1px solid #e5e7eb;
 }
 
 .mini-table tbody tr {
-  transition: background 120ms ease;
+  transition: background 0.15s ease;
 }
 .mini-table tbody tr:nth-child(odd) {
   background: #ffffff;
 }
 .mini-table tbody tr:nth-child(even) {
-  background: #fbfdff;
+  background: #f9fafb;
 }
 .mini-table tbody tr:hover {
-  background: #f1f5f9;
+  background: #f3f4f6;
 }
 
-/* Cells */
 .mini-table td {
   padding: 12px 14px;
-  border-bottom: 1px solid #eef2f7;
+  border-bottom: 1px solid #e5e7eb;
   vertical-align: middle;
 }
 
-/* Status pill */
+/* === Status Pills === */
 .status-pill {
   display: inline-block;
-  padding: 6px 10px;
+  padding: 6px 12px;
   border-radius: 999px;
   font-size: 0.8rem;
   font-weight: 600;
-  color: #0b1220;
-  background: #eef2ff;
+}
+.done-pill {
+  background: #dcfce7;
+  color: #166534;
+}
+.pending-pill {
+  background: #fef9c3;
+  color: #92400e;
 }
 
-/* Done state */
+/* === Done State === */
 .done {
   text-decoration: line-through;
   color: #6b7280;
 }
 
-/* Action buttons */
+/* === Buttons === */
 .mini-table button {
   margin-left: 6px;
-  padding: 6px 10px;
-  border-radius: 8px;
+  padding: 6px 12px;
+  border-radius: 6px;
   border: 1px solid transparent;
-  background: #f8fafc;
-  color: #0b1220;
+  background: #f3f4f6;
+  color: #111827;
   cursor: pointer;
   font-size: 0.85rem;
+  transition: all 0.2s ease;
 }
 .mini-table button:hover {
+  background: #e5e7eb;
   transform: translateY(-1px);
-  box-shadow: 0 6px 18px rgba(2, 6, 23, 0.06);
 }
 .mini-table button:active {
   transform: translateY(0);
@@ -141,38 +152,20 @@
 .mini-table .primary {
   background: #0ea5a4;
   color: #fff;
-  border-color: rgba(14, 165, 164, 0.12);
 }
 .mini-table .danger {
   background: #fee2e2;
   color: #b91c1c;
-  border-color: rgba(185, 28, 28, 0.06);
 }
 
-/* Row button (used in Goals list) */
-.row-btn {
-  text-align: left;
-  padding: 10px 6px;
-  display: block;
-  width: 100%;
-  color: #0b1220;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-}
-.row-btn:focus {
-  outline: 2px solid #c7e0ff;
-  border-radius: 6px;
-}
-
-/* Error */
+/* === Error === */
 .error {
   color: #b91c1c;
   margin-top: 8px;
   font-weight: 600;
 }
 
-/* Responsive: stack table into cards on small screens */
+/* === Responsive: Mobile Cards === */
 @media (max-width: 720px) {
   .modal {
     max-width: 96%;
@@ -188,11 +181,11 @@
     width: 100%;
   }
   .mini-table tr {
-    margin-bottom: 12px;
+    margin-bottom: 16px;
     border-radius: 10px;
     padding: 12px;
     background: #fff;
-    box-shadow: 0 6px 18px rgba(2, 6, 23, 0.03);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   }
   .mini-table td {
     display: flex;
@@ -203,10 +196,9 @@
   .mini-table td::before {
     content: attr(data-label);
     font-weight: 600;
-    color: #475569;
+    color: #374151;
     margin-right: 8px;
     flex: 0 0 45%;
-    text-align: left;
   }
   .mini-table td > .actions {
     flex: 0 0 55%;
@@ -214,10 +206,4 @@
     gap: 8px;
     justify-content: flex-end;
   }
-}
-
-/* Small polish */
-.modal-footer {
-  border-top: 1px solid #eef2f7;
-  background: #fbfdff;
 }
