@@ -46,7 +46,9 @@ export default function GoalMiniModal({
         body: JSON.stringify(body),
       });
       getGoals();
-      window.location.reload();
+      // Redirect to the goals page
+      window.location.href = "https://focuset.netlify.app/goals";
+
       if (!res.ok) {
         const text = await res.json();
         alert(text.message);
@@ -89,8 +91,8 @@ export default function GoalMiniModal({
       );
 
       const data = await res.json();
-      window.location.reload();
-
+      // Redirect to the goals page
+      window.location.href = "https://focuset.netlify.app/goals";
       if (!res.ok) {
         throw new Error(data.message || "Failed to update mini-goal");
       }
