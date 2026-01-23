@@ -108,7 +108,7 @@
 
 import { useEffect, useState } from "react";
 import { getGoals } from "../utils/goalsStorage";
-import "../styles/Progress.css";
+import "../styles/progress.css";
 
 export default function Progress() {
   const [goals, setGoals] = useState([]);

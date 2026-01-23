@@ -37,18 +37,20 @@ export default function GoalMiniModal({
     setError(null);
     try {
       // Adjust "steps" vs "minigoals" to match your backend route
-      const res = await fetch(
-        `${apiBase}/api/goals/${goal._id}/steps/${index}`,
-        {
-          method: "PATCH",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(body),
+      const res = await fetch(`${BASE_URL}/create/goals/${goal._id}/${index}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          ...(token && { Authorization: `Bearer ${token}` }),
         },
-      );
+        body: JSON.stringify(body),
+      });
       getGoals();
+      window.location.reload();
       if (!res.ok) {
-        const text = await res.text();
-        throw new Error(text || "Failed to update step");
+        const text = await res.json();
+        alert(text.message);
+        throw new Error(text.message || "Failed to update step");
       }
       const updatedGoal = await res.json(); // expect updated goal or updated steps
       const updatedSteps = updatedGoal?.steps ?? updatedGoal?.miniGoals ?? null;
