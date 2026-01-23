@@ -89,7 +89,8 @@
   object-fit: contain;
 }
 
-.danger {
+h2.danger {
+  border: none;
   color: #d9534f;
 }
 .success {
