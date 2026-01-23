@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Landing from "./pages/Landing";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
@@ -12,63 +12,59 @@ import DashboardLayout from "./layouts/DashboardLayout";
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        {/* Public routes */}
-        <Route path="/" element={<Landing />} />
-        <Route path="/signin" element={<SignIn />} />
-        <Route path="/signup" element={<SignUp />} />
+    <Routes>
+      {/* Public routes */}
+      <Route path="/" element={<Landing />} />
+      <Route path="/signin" element={<SignIn />} />
+      <Route path="/signup" element={<SignUp />} />
 
-        {/* Protected routes wrapped in DashboardLayout */}
-        <Route
-          path="/dashboard"
-          element={
-            <ProtectedRoute>
-              <DashboardLayout>
-                <Dashboard />
-              </DashboardLayout>
-            </ProtectedRoute>
-          }
-        />
+      {/* Protected routes wrapped in DashboardLayout */}
+      <Route
+        path="/dashboard"
+        element={
+          <ProtectedRoute>
+            <DashboardLayout>
+              <Dashboard />
+            </DashboardLayout>
+          </ProtectedRoute>
+        }
+      />
 
-        <Route
-          path="/goals"
-          element={
-            <ProtectedRoute>
-              <DashboardLayout>
-                <Goals />
-              </DashboardLayout>
-            </ProtectedRoute>
-          }
-        />
+      <Route
+        path="/goals"
+        element={
+          <ProtectedRoute>
+            <DashboardLayout>
+              <Goals />
+            </DashboardLayout>
+          </ProtectedRoute>
+        }
+      />
 
-        <Route
-          path="/progress"
-          element={
-            <ProtectedRoute>
-              <DashboardLayout>
-                <Progress />
-              </DashboardLayout>
-            </ProtectedRoute>
-          }
-        />
+      <Route
+        path="/progress"
+        element={
+          <ProtectedRoute>
+            <DashboardLayout>
+              <Progress />
+            </DashboardLayout>
+          </ProtectedRoute>
+        }
+      />
 
-        <Route path="/profile" element={<Profile />} />
-s
+      <Route path="/profile" element={<Profile />} />
 
-            <Route
-              path="/settings"
-              element={
-                <ProtectedRoute>
-                  <DashboardLayout>
-                    <Settings />
-                  </DashboardLayout>
-                </ProtectedRoute>
-              }
-            />
-
-      </Routes>
-    </BrowserRouter>
+      <Route
+        path="/settings"
+        element={
+          <ProtectedRoute>
+            <DashboardLayout>
+              <Settings />
+            </DashboardLayout>
+          </ProtectedRoute>
+        }
+      />
+    </Routes>
   );
 }
 
