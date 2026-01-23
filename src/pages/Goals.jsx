@@ -120,17 +120,7 @@ export default function Goals() {
                             {goal.status}
                           </td>
 
-                          <td>
-                            <button
-                              className="edit-btn"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                openGoal(goal);
-                              }}
-                            >
-                              Edit
-                            </button>
-                          </td>
+                         
 
                           <td>
                             <button

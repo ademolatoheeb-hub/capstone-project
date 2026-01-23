@@ -17,16 +17,15 @@ export async function createGoal(goalData) {
   let data;
   try {
     data = await res.json();
+    await getGoals();
   } catch {
     data = {};
   }
 
   if (!res.ok) {
     // backend might return { message } OR { error }
-    const errorMessage = data.message || data.error || "Failed to create goal";
-    const error = new Error(errorMessage);
-    error.backend = data;
-    throw error;
+    console.log(data.message);
+    throw new Error(data.message || "Registration failed");
   }
 
   return data; // backend returns { message, data } or { error }

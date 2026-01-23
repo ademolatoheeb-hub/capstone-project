@@ -1,253 +1,69 @@
+:root {
+  --sidebar-width: 240px;
+  --sidebar-narrow: 80px;
+  --topbar-height: 72px;
+  --bg: #f5f7fb;
+  --shadow: rgba(2, 6, 23, 0.06);
+}
+
+/* Layout root */
 .dashboard-layout {
   display: flex;
-  background: #f5f7fb;
+  background: var(--bg);
   min-height: 100vh;
   font-family: "Poppins", sans-serif;
+  position: relative;
 }
 
-/* SIDEBAR */
+/* SIDEBAR (desktop visible by default) */
 .sidebar {
-  width: 240px;
+  width: var(--sidebar-width);
   background: #eef1f8;
   padding: 24px;
+  box-sizing: border-box;
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100vh;
+  transform: translateX(0);
+  transition:
+    transform 260ms cubic-bezier(0.2, 0.9, 0.2, 1),
+    box-shadow 260ms ease;
+  z-index: 1200;
+  box-shadow: 0 6px 24px var(--shadow);
 }
 
-.sidebar-logo {
-  height: 32px;
+/* collapsed desktop (optional) */
+.dashboard-layout.sidebar-collapsed .sidebar {
+  width: var(--sidebar-narrow);
 }
 
-.sidebar-tagline {
-  font-size: 13px;
-  margin: 16px 0;
-}
-
-.sidebar-nav span {
-  display: block;
-  padding: 10px 0;
-  cursor: pointer;
-}
-
-.sidebar-nav .active {
-  font-weight: 600;
-}
-
-/* MAIN */
+/* MAIN area (offset on desktop only) */
 .dashboard {
   flex: 1;
-  padding: 24px 32px;
+ 
+   /* desktop offset */
+  transition:
+    margin-left 260ms ease,
+    padding 160ms ease;
+  min-width: 0;
+}
+
+/* When collapsed on desktop, shift main */
+.dashboard-layout.sidebar-collapsed .dashboard {
+  margin-left: var(--sidebar-narrow);
 }
 
 /* TOPBAR */
 .topbar {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   margin-bottom: 24px;
+  height: var(--topbar-height);
 }
 
-.search-input {
-  padding: 8px 16px;
-  width: 260px;
-  border-radius: 12px;
-  border: none;
-}
-
-/* HERO */
-.dashboard-top {
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  gap: 24px;
-}
-
-.hero-card {
-  background: linear-gradient(to right, #8b8ae1, #d8a3c8);
-  padding: 24px;
-  border-radius: 20px;
-  color: white;
-  position: relative;
-}
-
-.hero-card img {
-  position: absolute;
-  right: 20px;
-  bottom: 20px;
-  height: 120px;
-}
-
-/* CALENDAR */
-.calendar-card {
-  background: white;
-  padding: 20px;
-  border-radius: 20px;
-}
-
-/* STREAK */
-.streak {
-  display: flex;
-  align-items: center;
-  gap: 24px;
-  margin: 32px 0;
-}
-
-/* TODAY GOAL */
-.today-goal {
-  background: white;
-  border-radius: 20px;
-  padding: 24px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-/* STATS */
-.stats {
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  gap: 24px;
-  margin: 32px 0;
-}
-
-/* TABLE */
-.goals-table {
-  background: #e7effd;
-  padding: 24px;
-  border-radius: 20px;
-  margin-top: 32px;
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-td,
-th {
-  padding: 12px 0;
-}
-
-.table-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 16px;
-}
-
-.filter {
-  font-size: 13px;
-  color: #6b7280;
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-thead th {
-  text-align: left;
-  font-size: 13px;
-  color: #6b7280;
-  padding-bottom: 12px;
-}
-
-tbody td {
-  padding: 12px 0;
-  font-size: 14px;
-}
-
-.status {
-  font-weight: 500;
-  text-transform: capitalize;
-}
-
-/* STATUS COLORS */
-.status.completed {
-  color: #22c55e;
-}
-
-.status.in-progress {
-  color: #f59e0b;
-}
-
-.status.not-started {
-  color: #ef4444;
-}
-
-.status.not-completed {
-  color: #6b7280;
-}
-
-.completed {
-  color: green;
-}
-.in-progress {
-  color: orange;
-}
-.not-started {
-  color: red;
-}
-.not-completed {
-  color: gray;
-}
-
-/* TABLET */
-@media (max-width: 1023px) {
-  .dashboard-layout {
-    flex-direction: column;
-  }
-
-  .sidebar {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-  }
-
-  .dashboard-top {
-    grid-template-columns: 1fr;
-  }
-
-  .stats {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* MOBILE */
-@media (max-width: 767px) {
-  .dashboard {
-    padding: 16px;
-  }
-
-  .topbar {
-    flex-direction: column;
-    gap: 12px;
-  }
-
-  .search-input {
-    width: 100%;
-  }
-
-  .today-goal {
-    flex-direction: column;
-    text-align: center;
-    gap: 16px;
-  }
-}
-
-@media (max-width: 767px) {
-  table thead {
-    display: none;
-  }
-
-  table tr {
-    display: block;
-    margin-bottom: 16px;
-  }
-
-  table td {
-    display: flex;
-    justify-content: space-between;
-    padding: 8px 0;
-  }
-}
-
+/* HAMBURGER: hidden on desktop, visible on small screens */
 .hamburger {
   display: none;
   background: none;
@@ -257,25 +73,100 @@ tbody td {
   margin-left: 12px;
 }
 
-@media (max-width: 768px) {
+/* HERO, CARDS, TABLE etc — keep your existing rules (unchanged) */
+/* ... keep the rest of your existing rules for hero-card, calendar-card, table, etc. ... */
+
+/* TABLET: stack layout and make sidebar full width at top */
+@media (max-width: 1023px) {
+  .dashboard-layout {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    position: relative;
+    height: auto;
+    transform: translateX(0);
+    box-shadow: none;
+    padding: 16px;
+  }
+
+  .dashboard {
+    margin-left: 0;
+    padding: 16px;
+  }
+
+  .dashboard-top {
+    grid-template-columns: 1fr;
+  }
+
+  .stats {
+    grid-template-columns: 1fr;
+  }
+
+  /* show hamburger on tablet */
   .hamburger {
     display: inline-block;
   }
-  .mobile-menu {
-    position: absolute;
-    top: 64px; /* below topbar */
+}
+
+/* MOBILE: off-canvas sidebar controlled by .dashboard-layout.sidebar-open */
+@media (max-width: 767px) {
+  .sidebar {
+    position: fixed;
     left: 0;
-    right: 0;
-    background: #fff;
-    border-top: 1px solid #e5e7eb;
-    display: flex;
-    flex-direction: column;
+    top: 0;
+    height: 100vh;
+    width: var(--sidebar-width);
+    transform: translateX(-100%); /* hidden by default on mobile */
+    box-shadow: none;
   }
-  .mobile-menu a {
-    padding: 12px;
-    border-bottom: 1px solid #f3f4f6;
-    text-decoration: none;
-    color: #111;
-    font-weight: 600;
+
+  /* when the layout root has .sidebar-open, slide the sidebar in */
+  .dashboard-layout.sidebar-open .sidebar {
+    transform: translateX(0);
+    box-shadow: 0 12px 40px rgba(2, 6, 23, 0.12);
+  }
+
+  /* overlay (toggle via class on layout) */
+  .sidebar-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.35);
+    z-index: 1100;
+    opacity: 0;
+    transition: opacity 180ms ease;
+  }
+  .dashboard-layout.sidebar-open .sidebar-overlay {
+    display: block;
+    opacity: 1;
+  }
+
+  /* main content not offset on mobile */
+  .dashboard {
+    margin-left: 0;
+    padding: 16px;
+  }
+
+  /* show hamburger on mobile */
+  .hamburger {
+    display: inline-block;
+  }
+}
+
+/* ensure table responsive rules remain */
+@media (max-width: 767px) {
+  table thead {
+    display: none;
+  }
+  table tr {
+    display: block;
+    margin-bottom: 16px;
+  }
+  table td {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
   }
 }
