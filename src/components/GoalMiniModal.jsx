@@ -86,20 +86,26 @@ export default function GoalMiniModal({
         },
       );
 
+      const data = await res.json();
+      window.location.reload();
+
       if (!res.ok) {
-        const text = await res.json();
-        throw new Error(text.message || "Failed to update mini-goal");
+        throw new Error(data.message || "Failed to update mini-goal");
       }
 
-      const updatedGoal = await res.json(); // backend returns updated goal
-
-      // Prefer backend truth
-      if (updatedGoal?.steps) {
-        setMiniGoals(updatedGoal.steps);
-        onGoalUpdated?.(updatedGoal);
+      // update local state immediately
+      if (data?.steps) {
+        alert("there");
+        setMiniGoals(data.steps);
+        onGoalUpdated?.(data);
       }
 
-      return { ok: true, updatedGoal };
+      // optionally refresh all goals if you want global consistency
+      await getGoals();
+
+      alert(data.message);
+
+      return { ok: true, updatedGoal: data };
     } catch (err) {
       console.error("markMiniGoalDone error:", err);
       setError(err.message || "Network error");

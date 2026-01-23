@@ -6,7 +6,9 @@
   position: fixed;
   left: -260px; /* drawer start position */
   top: 0;
-  transition: left 0.3s ease, box-shodow 0.3s ease;
+  transition:
+    left 0.3s ease,
+    box-shodow 0.3s ease;
   z-index: 10;
   display: flex;
   flex-direction: column;
@@ -15,10 +17,22 @@
 
 .sidebar.open {
   left: 0;
-  box-shadow: 2px 0 12px;;
+  transition:
+    width 0.3s ease,
+    padding 0.3s ease;
+  z-index: 1000;
+  box-sizing: border-box;
+  overflow: auto;
 }
 
-/* SIDEBAR HEADER */
+/* COLLAPSED STATE */
+.sidebar.collapsed {
+  width: 80px;
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+/* HEADER */
 .sidebar-header {
   display: flex;
   align-items: center;
@@ -29,15 +43,17 @@
   flex-shrink: 0;
 }
 
-.sidebar-header img {
-  width: 36px;  
+.sidebar-logo img {
+  width: 36px;
+  height: 36px;
   object-fit: contain;
 }
 
-.sidebar-header h3 {
-  font-size: 28px;
-  font-weight: 400;
-  align-items: center;
+.sidebar-logo .brand {
+  font-size: 18px;
+  line-height: 1;
+  color: #111827;
+  white-space: nowrap;
 }
 
 .sidebar-logo {
@@ -48,27 +64,36 @@
 
 .sidebar-title {
   font-size: 18px;
-  font-weight: 600;
+  cursor: pointer;
+  padding: 6px;
+  line-height: 1;
 }
 
 /* NAVIGATION */
 .nav {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  padding: 8px;
+  gap: 8px;
 }
 
 .nav-link {
-  /* display: flex;
-  align-items: center; */
-  padding: 12px 26px;
-  font-size: 15px;
+  padding: 12px 14px;
+  border-radius: 10px;
   color: #374151;
   text-decoration: none;
-  border-radius: 10px;
-  border: none;
-  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 500;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
+}
+
+.nav-link .icon {
+  font-size: 18px;
+  width: 24px;
+  text-align: center;
 }
 
 .nav-link.active {
@@ -87,24 +112,79 @@
   cursor: pointer;
 }
 
-/* DRAWER MOBILE */
-@media (max-width: 1024px) {
+/* Ensure labels are hidden visually when collapsed but remain accessible if needed */
+.sidebar.collapsed .label {
+  display: none;
+}
+
+/* Desktop main content offset (if you use .dashboard-main) */
+.dashboard-main,
+.dashboard {
+  margin-left: 260px;
+  transition: margin-left 0.3s ease;
+}
+
+.sidebar.collapsed ~ .dashboard-main,
+.sidebar.collapsed ~ .dashboard {
+  margin-left: 80px;
+}
+
+/* Hide sidebar on small screens so topbar hamburger is visible */
+@media (max-width: 768px) {
   .sidebar {
-    width: 240px;
-    position: static;
-    left: 0;
-  }
-
-  .sidebar-header img {
-    width: 32px;
-    height: 32px;
-  }
-
-  .sidebar-header span {
-    font-size: 16px;
-  }
-
-  .sidebar-overlay{
     display: none;
+    width: 0;
+    padding: 0;
+    border-right: none;
+  }
+
+  .dashboard-main,
+  .dashboard {
+    margin-left: 0 !important;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+}
+
+/* Small visual tweaks */
+@media (min-width: 769px) {
+  .sidebar.collapsed .sidebar-logo .brand {
+    display: none;
+  }
+}
+
+/* parent-controlled layout offsets */
+.layout .dashboard-main,
+.layout .dashboard {
+  margin-left: 260px;
+  transition: margin-left 0.3s ease;
+}
+
+.layout.sidebar-collapsed .dashboard-main,
+.layout.sidebar-collapsed .dashboard {
+  margin-left: 80px;
+}
+
+/* mobile: hide sidebar and reset margins */
+@media (max-width: 768px) {
+  .layout .sidebar {
+    display: none;
+  }
+  .layout .dashboard-main,
+  .layout .dashboard {
+    margin-left: 0 !important;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+}
+/* default: hide menu button on desktop */
+.topbar .menu-btn {
+  display: none;
+}
+
+/* show on mobile/tablet */
+@media (max-width: 1024px) {
+  .topbar .menu-btn {
+    display: inline-flex;
   }
 }

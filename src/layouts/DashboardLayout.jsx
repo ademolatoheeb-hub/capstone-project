@@ -9,9 +9,12 @@ export default function DashboardLayout({ children }) {
   return (
     <div className="dashboard-layout">
       {/* SIDEBAR */}
-      <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+      <Sidebar
+        isOpen={sidebarOpen}
+        onClose={() => setSidebarOpen(false)}
+      />
 
-      {/* OVERLAY for mobile */}
+      {/* OVERLAY (mobile only) */}
       {sidebarOpen && (
         <div
           className="sidebar-overlay"
@@ -23,8 +26,12 @@ export default function DashboardLayout({ children }) {
       <div className="dashboard-main">
         <Topbar onMenuClick={() => setSidebarOpen(true)} />
 
-        <div className="dashboard-content">{children}</div>
+        <div className="dashboard-content">
+          {children}
+        </div>
       </div>
     </div>
   );
 }
+
+

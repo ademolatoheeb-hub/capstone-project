@@ -6,8 +6,8 @@ export default function GoalForm() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
-  const [globalFrequency, setGlobalFrequency] = useState("Once"); 
+  const [endgoal, setEndgoal] = useState("");
+  const [frequency, setfrequency] = useState("Daily");
   const [steps, setSteps] = useState([{ name: "", subscription: null }]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -73,7 +73,7 @@ export default function GoalForm() {
       setError("Description is required");
       return false;
     }
-    if (!startDate || !endDate) {
+    if (!startDate || !endgoal) {
       setError("Start and due dates are required");
       return false;
     }
@@ -103,17 +103,16 @@ export default function GoalForm() {
 
     const payload = {
       title: title.trim(),
-      description: description.trim(),
       startDate: new Date(startDate).toISOString(),
-      endDate: new Date(endDate).toISOString(),
+      endgoal: new Date(endgoal).toISOString(),
       status: "active",
-      frequency: globalFrequency, // "Once" or "All"
       steps: steps
         .filter((s) => s.name.trim() !== "")
         .map((s, i) => ({
           index: i,
           name: s.name.trim(),
           subscription: s.subscription,
+          frequency: frequency,
         })),
     };
 
@@ -123,8 +122,8 @@ export default function GoalForm() {
       setTitle("");
       setDescription("");
       setStartDate("");
-      setEndDate("");
-      setGlobalFrequency("Once");
+      setEndgoal("");
+      setfrequency("Daily");
       setSteps([{ name: "", subscription: null }]);
       console.log("Created goal:", response?.data || response);
     } catch (err) {
@@ -178,21 +177,21 @@ export default function GoalForm() {
             <label>Due Date</label>
             <input
               type="date"
-              value={endDate}
-              onChange={(e) => setEndDate(e.target.value)}
+              value={endgoal}
+              onChange={(e) => setEndgoal(e.target.value)}
             />
           </div>
         </div>
 
         <label>Frequency</label>
         <select
-          value={globalFrequency}
-          onChange={(e) => setGlobalFrequency(e.target.value)}
-          aria-label="Global frequency for mini goals"
+          value={frequency}
+          onChange={(e) => setfrequency(e.target.value)}
         >
-          <option value="Once">Once</option>
-          <option value="All">All</option>
+          <option value="Daily">Daily</option>
+          <option value="Weekly">Weekly</option>
         </select>
+
         <p className="muted">
           Choose Once or All. If you choose All, it applies to every mini goal.
         </p>
